@@ -10,13 +10,13 @@ This is a REST API simulating an e-commerce backend based on three models: Produ
 The API connects to a postgres database. As a first step, it is necessary to create two databases (development and test) on your local machine. Run the command `psql postgres` in terminal to open the postgres CLI. Then run the following:
 
 ```SQL
-CREATE USER user WITH PASSWORD 'YOUR_PASSWORD_HERE';
+CREATE USER pg_user WITH PASSWORD 'YOUR_PASSWORD_HERE';
 CREATE DATABASE store;
 \c store;
-GRANT ALL PRIVILEGES ON DATABASE store TO user;
+GRANT ALL PRIVILEGES ON DATABASE store TO pg_user;
 CREATE DATABASE store_test;
 \c store_test;
-GRANT ALL PRIVILEGES ON DATABASE store_test TO user;
+GRANT ALL PRIVILEGES ON DATABASE store_test TO pg_user;
 ````
 
 To make sure the API can connect to the db it is necessary to create a `database.json` file with the following format
@@ -27,14 +27,14 @@ To make sure the API can connect to the db it is necessary to create a `database
     "driver": "pg",
     "host": "127.0.0.1",
     "database": "store",
-    "user": "user",
+    "user": "pg_user",
     "password": 'YOUR_PASSWORD_HERE'
   },
   "test": {
     "driver": "pg",
     "host": "127.0.0.1",
     "database": "store_test",
-    "user": "user",
+    "user": "pg_user",
     "password": 'YOUR_PASSWORD_HERE'
   }
 }
@@ -52,7 +52,7 @@ The API relies on several environment variables to function. `dotenv` is already
 | POSTGRES_HOST     | 127.0.0.1        | Same value as in the database.json file |
 | POSTGRES_DB       | store       | Same value as in the database.json file |   
 | POSTGRES_TEST_DB  | store_test  | Same value as in the database.json file |
-| POSTGRES_USER     | user  | Same value as in the database.json file |
+| POSTGRES_USER     | pg_user  | Same value as in the database.json file |
 | POSTGRES_PASSWORD | YOUR_PASSWORD    | Same value as in the database.json file |
 | ENV               | dev              | Used to set the DB environment. The test script automatically sets it to 'test' when runnning.|
 | PORT              | YOUR_PORT        | The API will run on http://localhost.3000 by default, but there is the option to select a custom port as an envrionment variable |
@@ -82,6 +82,8 @@ npm run start
 ```
 
 the API will then be available on port 3000 by default or at the PORT set in the .env file.
+
+but before that you should run the command ```db-migrate up``` if it's first time you run the app .
 
 ### Scripts ###
 
