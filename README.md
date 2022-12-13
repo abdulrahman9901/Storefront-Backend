@@ -1,6 +1,6 @@
 ## Introduction ##
 
-This is a REST API simulating an e-commerce backend based on three models: Products, Orders and Users. A detailed list of the endpoints and actions available can be found in the [REQUIREMENTS.md] file.
+This is a REST API simulating an e-commerce backend based on three models: Products, Orders and Users. A detailed list of the endpoints and actions available can be found in the [REQUIREMENTS.md](https://github.com/abdulrahman9901/Storefront-Backend/blob/bf76e95fac748c61d8442396f0d29164528a4818/REQUIREMENTS.md)file.
 
 ---
 ## Setup ##
@@ -120,4 +120,4 @@ npm run watch
 ---
 ## How to use ##
 
-The API offers several endpoints to access and manipulate data in the database through both CRUD and custom actions. The details of what is required to successfully send requests to each endpoint, data shapes and db schema can be found in the [REQUIREMENTS.md]file.
+The API offers several endpoints to access and manipulate data in the database through both CRUD and custom actions. The details of what is required to successfully send requests to each endpoint, data shapes and db schema can be found in the [REQUIREMENTS.md](https://github.com/abdulrahman9901/Storefront-Backend/blob/bf76e95fac748c61d8442396f0d29164528a4818/REQUIREMENTS.md)file.
