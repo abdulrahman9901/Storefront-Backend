@@ -12,6 +12,7 @@ const index = async (_req, res) => {
 };
 const show = async (req, res) => {
     const order = await store.show(req.params.id);
+    console.log("at handlers ", order);
     res.json(order);
 };
 const create = async (req, res) => {
@@ -27,9 +28,7 @@ const create = async (req, res) => {
     }
     try {
         const order = {
-            product_id: req.body.product_id,
             user_id: req.body.user_id,
-            quantity: req.body.quantity,
             status: req.body.status,
         };
         const neworder = await store.create(order);
@@ -54,9 +53,7 @@ const update = async (req, res) => {
     try {
         const order = {
             id: req.body.id,
-            product_id: req.body.product_id,
             user_id: req.body.user_id,
-            quantity: req.body.quantity,
             status: req.body.status,
         };
         const updatedOrder = await store.update(order);

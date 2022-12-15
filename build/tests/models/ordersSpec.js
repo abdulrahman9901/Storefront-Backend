@@ -44,61 +44,49 @@ describe("Order Model", () => {
                 25,
                 'fruits'
             ]);
-            sql = 'INSERT INTO Orders (product_id,user_id,quantity, status) VALUES($1, $2, $3, $4);';
+            sql = 'INSERT INTO Orders (user_id, status) VALUES($1, $2);';
             await connection.query(sql, [
-                test_data_1.test_orders[0].product_id,
                 test_data_1.test_orders[0].user_id,
-                test_data_1.test_orders[0].quantity,
                 test_data_1.test_orders[0].status,
             ]);
             connection.release();
         });
         it('create method should add a Order', async () => {
             const result = await store.create({
-                product_id: test_data_1.test_orders[1].product_id,
                 user_id: test_data_1.test_orders[1].user_id,
-                quantity: test_data_1.test_orders[1].quantity,
                 status: test_data_1.test_orders[1].status,
             });
-            expect(lodash_1.default.pick(result, ['id', 'product_id', 'user_id', 'quantity', 'status'])).toEqual({
+            expect(lodash_1.default.pick(result, ['id', 'user_id', 'status'])).toEqual({
                 id: 2,
-                product_id: test_data_1.test_orders[1].product_id,
                 user_id: test_data_1.test_orders[1].user_id,
-                quantity: test_data_1.test_orders[1].quantity,
                 status: test_data_1.test_orders[1].status,
             });
         });
         it('index method should return a list of Orders', async () => {
             const result = await store.index();
             for (let i = 0; i < result.length; i++) {
-                expect(lodash_1.default.pick(result[i], ['id', 'product_id', 'user_id', 'quantity', 'status'])).toEqual({
+                expect(lodash_1.default.pick(result[i], ['id', 'user_id', 'status'])).toEqual({
                     id: i + 1,
-                    product_id: test_data_1.test_orders[i].product_id,
                     user_id: test_data_1.test_orders[i].user_id,
-                    quantity: test_data_1.test_orders[i].quantity,
                     status: test_data_1.test_orders[i].status,
                 });
             }
         });
         it('show method should return the correct Order', async () => {
             const result = await store.show("1");
-            expect(lodash_1.default.pick(result, ['id', 'product_id', 'user_id', 'quantity', 'status'])).toEqual({
+            expect(lodash_1.default.pick(result, ['id', 'user_id', 'status'])).toEqual({
                 id: 1,
-                product_id: test_data_1.test_orders[0].product_id,
                 user_id: test_data_1.test_orders[0].user_id,
-                quantity: test_data_1.test_orders[0].quantity,
                 status: test_data_1.test_orders[0].status,
             });
         });
         it('update method should update the Order data', async () => {
             const result = await store.update({
                 id: 1,
-                product_id: test_data_1.test_orders[0].product_id,
                 user_id: test_data_1.test_orders[0].user_id,
-                quantity: 15,
                 status: 'active',
             });
-            expect({ quantity: result.quantity, status: result.status }).toEqual({ quantity: 15, status: 'active' });
+            expect({ status: result.status }).toEqual({ status: 'active' });
         });
         it('current method should return current active Order for user', async () => {
             const result = await store.current('1');

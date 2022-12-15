@@ -29,11 +29,9 @@ describe('orders Handlers', () => {
             test_data_1.test_products[0].price,
             test_data_1.test_products[0].category,
         ]);
-        sql = 'INSERT INTO Orders (product_id,user_id,quantity, status) VALUES($1, $2, $3, $4);';
+        sql = 'INSERT INTO Orders (user_id,status) VALUES($1, $2);';
         await connection.query(sql, [
-            test_data_1.test_orders[0].product_id,
             test_data_1.test_orders[0].user_id,
-            test_data_1.test_orders[0].quantity,
             test_data_1.test_orders[0].status,
         ]);
         token = jsonwebtoken_1.default.sign({ user: test_data_1.test_users[0] }, process.env.TOKEN_SECRET);
@@ -54,26 +52,22 @@ describe('orders Handlers', () => {
             const result = response.body;
             expect(response.status).toBe(200);
             for (let i = 0; i < result.length; i++) {
-                expect(lodash_1.default.pick(result[i], ['id', 'product_id', 'user_id', 'quantity', 'status'])).toEqual({
+                expect(lodash_1.default.pick(result[i], ['id', 'user_id', 'status'])).toEqual({
                     id: i + 1,
-                    product_id: test_data_1.test_orders[i].product_id,
                     user_id: test_data_1.test_orders[i].user_id,
-                    quantity: test_data_1.test_orders[i].quantity,
                     status: test_data_1.test_orders[i].status,
                 });
             }
         });
-    it('gets /orders/:id: returns a user in JSON format.', async () => {
+    it('gets /orders/:id: returns a order in JSON format.', async () => {
         const response = await request
             .get('/orders/1')
             .set('Authorization', `Bearer ${token}`);
         expect(response.status).toBe(200);
         const result = response.body;
-        expect(lodash_1.default.pick(result, ['id', 'product_id', 'user_id', 'quantity', 'status'])).toEqual({
+        expect(lodash_1.default.pick(result, ['id', 'user_id', 'status'])).toEqual({
             id: 1,
-            product_id: test_data_1.test_orders[0].product_id,
             user_id: test_data_1.test_orders[0].user_id,
-            quantity: test_data_1.test_orders[0].quantity,
             status: test_data_1.test_orders[0].status,
         });
     });
@@ -81,14 +75,12 @@ describe('orders Handlers', () => {
         const response = await request
             .put('/orders/update')
             .set('Authorization', `Bearer ${token}`)
-            .send({ id: 1, quantity: 50, status: 'active', ...lodash_1.default.pick(test_data_1.test_orders[0], ['product_id', 'user_id']) });
+            .send({ id: 1, status: 'active', ...lodash_1.default.pick(test_data_1.test_orders[0], ['user_id']) });
         expect(response.status).toBe(200);
         const result = response.body;
-        expect(lodash_1.default.pick(result, ['id', 'product_id', 'user_id', 'quantity', 'status'])).toEqual({
+        expect(lodash_1.default.pick(result, ['id', 'user_id', 'status'])).toEqual({
             id: 1,
-            product_id: test_data_1.test_orders[0].product_id,
             user_id: test_data_1.test_orders[0].user_id,
-            quantity: 50,
             status: 'active',
         });
     });
@@ -110,11 +102,9 @@ describe('orders Handlers', () => {
             .set('Authorization', `Bearer ${token}`)
             .send({ id: 1 });
         expect(response.status).toBe(200);
-        expect(lodash_1.default.pick(response.body, ['id', 'product_id', 'user_id', 'quantity', 'status'])).toEqual({
+        expect(lodash_1.default.pick(response.body, ['id', 'user_id', 'status'])).toEqual({
             id: 1,
-            product_id: test_data_1.test_orders[0].product_id,
             user_id: test_data_1.test_orders[0].user_id,
-            quantity: 50,
             status: 'active',
         });
     });

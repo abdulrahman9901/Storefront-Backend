@@ -27,6 +27,7 @@ class OrderStore {
             const conn = await database_1.default.connect();
             const result = await conn.query(sql, [id]);
             conn.release();
+            console.log(result.rows[0]);
             return result.rows[0];
         }
         catch (err) {
@@ -35,26 +36,26 @@ class OrderStore {
     }
     async create(O) {
         try {
-            const sql = 'INSERT INTO Orders (product_id, quantity, status, user_id) VALUES($1, $2, $3, $4) RETURNING *';
+            const sql = 'INSERT INTO Orders (status, user_id) VALUES($1, $2) RETURNING *';
             // @ts-ignore
             const conn = await database_1.default.connect();
             const result = await conn
-                .query(sql, [O.product_id, O.quantity, O.status, O.user_id]);
+                .query(sql, [O.status, O.user_id]);
             const Order = result.rows[0];
             conn.release();
             return Order;
         }
         catch (err) {
-            throw new Error(`Could not add new Order  ${O.product_id}. Error: ${err}`);
+            throw new Error(`Could not add new Order  ${O.id}. Error: ${err}`);
         }
     }
     async update(Order) {
         //console.log(Order)
         try {
-            const sql = 'UPDATE Orders SET product_id=$1 ,user_id = $2,quantity =$3, status = $4  WHERE id=$5  RETURNING * ;';
+            const sql = 'UPDATE Orders SET user_id = $1, status = $2  WHERE id=$3  RETURNING * ;';
             // @ts-ignore
             const conn = await database_1.default.connect();
-            const result = await conn.query(sql, [Order.product_id, Order.user_id, Order.quantity, Order.status, Order.id]);
+            const result = await conn.query(sql, [Order.user_id, Order.status, Order.id]);
             const order = result.rows[0];
             conn.release();
             return order;

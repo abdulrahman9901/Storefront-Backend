@@ -53,12 +53,10 @@ describe("Order Model methods operate as expected ", () => {
       'fruits'
     ]);
 
-  sql = 'INSERT INTO Orders (product_id,user_id,quantity, status) VALUES($1, $2, $3, $4);'
+  sql = 'INSERT INTO Orders (user_id, status) VALUES($1, $2);'
 
       await connection.query(sql, [
-      test_orders[0].product_id,
       test_orders[0].user_id,
-      test_orders[0].quantity,
       test_orders[0].status,
     ]);
    
@@ -69,17 +67,13 @@ describe("Order Model methods operate as expected ", () => {
   it('create method should add a Order', async () => {
 
     const result = await store.create({
-      product_id:test_orders[1].product_id,
       user_id:test_orders[1].user_id,
-      quantity:test_orders[1].quantity,
       status:test_orders[1].status,
     });
 
-    expect(_.pick(result, ['id', 'product_id','user_id','quantity', 'status'])).toEqual({
+    expect(_.pick(result, ['id','user_id','status'])).toEqual({
       id: 2,
-      product_id:test_orders[1].product_id,
       user_id:test_orders[1].user_id,
-      quantity:test_orders[1].quantity,
       status:test_orders[1].status,
     });
 
@@ -89,11 +83,9 @@ describe("Order Model methods operate as expected ", () => {
     const result = await store.index();
 
     for(let i=0;i<result.length;i++) {
-      expect(_.pick(result[i], ['id', 'product_id','user_id','quantity', 'status'])).toEqual({
+      expect(_.pick(result[i], ['id','user_id','status'])).toEqual({
         id:i+1,
-        product_id:test_orders[i].product_id,
         user_id:test_orders[i].user_id,
-        quantity:test_orders[i].quantity,
         status:test_orders[i].status,
       });
       }
@@ -104,11 +96,9 @@ describe("Order Model methods operate as expected ", () => {
     const result = await store.show("1");
 
 
-    expect(_.pick(result, ['id', 'product_id','user_id','quantity', 'status'])).toEqual({
+    expect(_.pick(result, ['id','user_id','status'])).toEqual({
       id: 1,
-      product_id:test_orders[0].product_id,
       user_id:test_orders[0].user_id,
-      quantity:test_orders[0].quantity,
       status:test_orders[0].status,
     });
   });
@@ -117,13 +107,11 @@ describe("Order Model methods operate as expected ", () => {
         
     const result = await store.update({
       id: 1,
-      product_id:test_orders[0].product_id,
       user_id:test_orders[0].user_id,
-      quantity:15,
       status:'active',
     })
 
-    expect({quantity:result.quantity,status:result.status}).toEqual({quantity:15,status:'active'});
+    expect({status:result.status}).toEqual({status:'active'});
   });
   it('current method should return current active Order for user', async () => {
 

@@ -32,12 +32,10 @@ describe('orders Handlers', () => {
     test_products[0].category,
     ]);
 
-    sql = 'INSERT INTO Orders (product_id,user_id,quantity, status) VALUES($1, $2, $3, $4);'
+    sql = 'INSERT INTO Orders (user_id,status) VALUES($1, $2);'
 
       await connection.query(sql, [
-      test_orders[0].product_id,
       test_orders[0].user_id,
-      test_orders[0].quantity,
       test_orders[0].status,
     ]);
 
@@ -64,18 +62,15 @@ describe('orders Handlers', () => {
     expect(response.status).toBe(200);
 
     for(let i=0;i<result.length;i++) {
-      expect(_.pick(result[i], ['id', 'product_id', 'user_id', 'quantity','status'])).toEqual({
+      expect(_.pick(result[i], ['id',  'user_id', 'status'])).toEqual({
         id:i+1,
-        product_id: test_orders[i].product_id,
         user_id: test_orders[i].user_id,
-        quantity: test_orders[i].quantity,
         status: test_orders[i].status,
-
       });
       }
   });
 
-  it('gets /orders/:id: returns a user in JSON format.', async () => {
+  it('gets /orders/:id: returns a order in JSON format.', async () => {
     const response = await request
       .get('/orders/1')
       .set('Authorization', `Bearer ${token}`);
@@ -85,31 +80,27 @@ describe('orders Handlers', () => {
 
     const result = response.body;
 
-    expect(_.pick(result, ['id', 'product_id', 'user_id', 'quantity','status'])).toEqual({
+    expect(_.pick(result, ['id',  'user_id', 'status'])).toEqual({
       id:1,
-      product_id: test_orders[0].product_id,
       user_id: test_orders[0].user_id,
-      quantity: test_orders[0].quantity,
       status: test_orders[0].status,
     });
 
   });
 
-  it('put /orders update and returns a user in JSON format.', async () => {
+  it('put /orders update and returns a order in JSON format.', async () => {
     const response = await request
       .put('/orders/update')
       .set('Authorization', `Bearer ${token}`)
-      .send({id:1,quantity:50,status:'active',..._.pick(test_orders[0],['product_id', 'user_id'])});
+      .send({id:1,status:'active',..._.pick(test_orders[0],['user_id'])});
 
     expect(response.status).toBe(200);
 
     const result = response.body;
 
-    expect(_.pick(result, ['id', 'product_id', 'user_id', 'quantity','status'])).toEqual({
+    expect(_.pick(result, ['id',  'user_id', 'status'])).toEqual({
       id:1,
-      product_id: test_orders[0].product_id,
       user_id: test_orders[0].user_id,
-      quantity: 50,
       status: 'active',
     });
 
@@ -131,7 +122,7 @@ describe('orders Handlers', () => {
       }
   });
   
-  it('delete /orders: returns deleted user ', async () => {
+  it('delete /orders: returns deleted order ', async () => {
     const response = await request
       .delete('/orders')
       .set('Authorization', `Bearer ${token}`)
@@ -140,11 +131,9 @@ describe('orders Handlers', () => {
       expect(response.status).toBe(200);
 
       
-      expect(_.pick(response.body, ['id', 'product_id', 'user_id', 'quantity','status'])).toEqual({
+      expect(_.pick(response.body, ['id',  'user_id', 'status'])).toEqual({
         id:1,
-        product_id: test_orders[0].product_id,
         user_id: test_orders[0].user_id,
-        quantity: 50,
         status: 'active',
   });
 
