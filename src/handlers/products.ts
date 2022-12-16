@@ -5,13 +5,27 @@ import jwt, { Secret }  from 'jsonwebtoken'
 const store = new ProductStore()
 
 const index = async (_req: Request, res: Response) => {
-  const products = await store.index()
-  res.json(products)
+  try {
+    const products = await store.index()
+    res.json(products)
+    return
+    }catch(err) {
+      res.status(400)
+      res.json(err)  
+      return  
+    }
 }
 
 const show = async (req: Request, res: Response) => {
-   const product = await store.show(req.params.id)
-   res.json(product)
+   try {
+    const product = await store.show(req.params.id)
+    res.json(product)
+    return
+    }catch(err) {
+      res.status(400)
+      res.json(err)  
+      return  
+    }
 }
 
 const create = async (req: Request, res: Response) => {
@@ -33,9 +47,11 @@ const create = async (req: Request, res: Response) => {
 
         const newProduct = await store.create(product)
         res.json(newProduct)
+        return
     } catch(err) {
         res.status(400)
         res.json(err)
+        return
     }
 }
 
@@ -59,9 +75,11 @@ try {
 
       const updatedProduct = await store.update(product)
       res.json(updatedProduct)
+      return
   } catch(err) {
       res.status(400)
       res.json(err)
+      return
   }
 }
 
@@ -75,8 +93,15 @@ const destroy = async (req: Request, res: Response) => {
       res.json('Access denied, invalid token')
       return
   }  
-  const deleted = await store.delete(req.body.id)
-  res.json(deleted)
+  try {
+    const deleted = await store.delete(req.body.id)
+    res.json(deleted)
+    return
+    }catch(err) {
+      res.status(400)
+      res.json(err)  
+      return  
+    }
 }
 
 const productRoutes = (app: express.Application) => {

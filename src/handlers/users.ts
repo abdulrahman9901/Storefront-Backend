@@ -5,13 +5,27 @@ import jwt, { JwtPayload, Secret } from 'jsonwebtoken'
 const store = new UserStore()
 
 const index = async (_req: Request, res: Response) => {
-  const users = await store.index()
-  res.json(users)
+  try {
+    const users = await store.index()
+    res.json(users)
+    return
+    }catch(err) {
+      res.status(400)
+      res.json(err)  
+      return  
+    }
 }
 
 const show = async (req: Request, res: Response) => {
-   const user = await store.show(req.params.id)
-   res.json(user)
+   try {
+    const user = await store.show(req.params.id)
+    res.json(user)
+    return
+    }catch(err) {
+      res.status(400)
+      res.json(err)  
+      return  
+    }
 }
 
 const create = async (req: Request, res: Response) => {
@@ -28,9 +42,11 @@ const create = async (req: Request, res: Response) => {
         var token = jwt.sign({user:newUser},process.env.TOKEN_SECRET as string)
 
         res.json(token)
+        return
     } catch(err) {
         res.status(400)
         res.json(err)
+        return
     }
 }
 
@@ -39,16 +55,32 @@ const authenticate = async (req: Request, res: Response) => {
       const user = await store.authenticate(req.body.username,req.body.password)
       var token = jwt.sign({ user: user }, process.env.TOKEN_SECRET as Secret);
       res.json(token)
+      return
   }catch(err){
     res.status(400)
     res.json(err)
+    return
   }
 }
 const destroy = async (req: Request, res: Response) => {
-
-  const deleted = await store.delete(req.body.id)
-  //////console.log(deleted)
-  res.json(deleted)
+  try {
+    const authorizationHeader = req.headers.authorization
+    const token = authorizationHeader?.split(' ')[1]
+    jwt.verify(token as string, process.env.TOKEN_SECRET as Secret) as JwtPayload
+} catch(err) {
+    res.status(401)
+    res.json(err)
+    return
+}
+  try {  
+    const deleted = await store.delete(req.body.id)
+    res.json(deleted)
+    return
+    }catch(err) {
+      res.status(400)
+      res.json(err)  
+      return  
+    }
 }
 
 const update = async (req: Request, res: Response) => {
@@ -79,10 +111,11 @@ const update = async (req: Request, res: Response) => {
       const newToken = jwt.sign({user:updated},process.env.TOKEN_SECRET as string)
 
       res.json({...updated,token:newToken})
-      
+      return
   } catch(err) {
       res.status(400)
       res.json(err as string+ user)
+      return
   }
 }
 const UserRoutes = (app: express.Application) => {
