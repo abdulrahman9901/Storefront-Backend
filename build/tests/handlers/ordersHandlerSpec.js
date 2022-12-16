@@ -71,7 +71,7 @@ describe('orders Handlers', () => {
             status: test_data_1.test_orders[0].status,
         });
     });
-    it('put /orders update and returns a user in JSON format.', async () => {
+    it('put /orders update and returns a order in JSON format.', async () => {
         const response = await request
             .put('/orders/update')
             .set('Authorization', `Bearer ${token}`)
@@ -96,7 +96,7 @@ describe('orders Handlers', () => {
             });
         }
     });
-    it('delete /orders: returns deleted user ', async () => {
+    it('delete /orders: returns deleted order ', async () => {
         const response = await request
             .delete('/orders')
             .set('Authorization', `Bearer ${token}`)

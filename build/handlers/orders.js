@@ -12,7 +12,6 @@ const index = async (_req, res) => {
 };
 const show = async (req, res) => {
     const order = await store.show(req.params.id);
-    console.log("at handlers ", order);
     res.json(order);
 };
 const create = async (req, res) => {

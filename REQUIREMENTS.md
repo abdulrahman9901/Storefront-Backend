@@ -21,8 +21,8 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 #### Orders
 - Current Order by user (args: user id)[token required]: ```'orders/current/:user_id' [GET] ```
-- Index: ```'orders/' [GET] ```
-- Show: ```'orders/:id' [GET] ```
+- Index [token required]: ```'orders/' [GET] ```
+- Show [token required] : ```'orders/:id' [GET] ```
 - Create [token required]: ```'orders/' [POST] ```
 - delete [token required]: ```'orders/' [DELETE] ```
 - update [token required]: ```'orders/update' [PUT] ```
@@ -58,19 +58,29 @@ CREATE Table Users (
 ```
 #### Orders
 - id
-- id of each product in the order
-- quantity of each product in the order
 - user_id
 - status of order (active or complete)
 
 ```
 CREATE Table Orders (
     id SERIAL PRIMARY KEY, 
-    product_id integer not null, 
     user_id  integer not null, 
-    quantity integer NOT NULL DEFAULT 1, 
     status varchar(50) NOT NULL, 
-    FOREIGN KEY (product_id) REFERENCES  Products(id),
     FOREIGN KEY (user_id) REFERENCES  Users(id)
     );
 ```
+#### Order products
+- id
+- id of each product in the order
+- id of the order 
+- quantity of each product in the order
+
+```
+CREATE Table Order products (
+    id SERIAL PRIMARY KEY, 
+    product_id integer not null, 
+    order_id  integer not null, 
+    quantity integer NOT NULL DEFAULT 1, 
+    FOREIGN KEY (product_id) REFERENCES  Products(id),
+    FOREIGN KEY (order_id) REFERENCES  Orders(id)
+    );

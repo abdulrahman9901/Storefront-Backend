@@ -27,7 +27,6 @@ class OrderStore {
             const conn = await database_1.default.connect();
             const result = await conn.query(sql, [id]);
             conn.release();
-            console.log(result.rows[0]);
             return result.rows[0];
         }
         catch (err) {

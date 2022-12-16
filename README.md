@@ -1,6 +1,6 @@
 ## Introduction ##
 
-This is a REST API simulating an e-commerce backend based on three models: Products, Orders and Users. A detailed list of the endpoints and actions available can be found in the [REQUIREMENTS.md](https://github.com/abdulrahman9901/Storefront-Backend/blob/bf76e95fac748c61d8442396f0d29164528a4818/REQUIREMENTS.md) file.
+This is a REST API simulating an e-commerce backend based on three models: Products, Orders and Users. A detailed list of the endpoints and actions available can be found in the [REQUIREMENTS.md] file.
 
 ---
 ## Setup ##
@@ -53,6 +53,7 @@ The API relies on several environment variables to function. `dotenv` is already
 | POSTGRES_DB       | store       | Same value as in the database.json file |   
 | POSTGRES_TEST_DB  | store_test  | Same value as in the database.json file |
 | POSTGRES_USER     | pg_user  | Same value as in the database.json file |
+| POSTGRES_PORT     | YOUR_PORT        | The default port that application run at is ```5432``` but you can use any available port |
 | POSTGRES_PASSWORD | YOUR_PASSWORD    | Same value as in the database.json file |
 | ENV               | dev              | Used to set the DB environment. The test script automatically sets it to 'test' when runnning.|
 | PORT              | YOUR_PORT        | The API will run on http://localhost.3000 by default, but there is the option to select a custom port as an envrionment variable |
@@ -111,7 +112,7 @@ NOTE: if the test script is interrupted by an NPM Error, it will not run to the 
 
 #### Watcher ####
 
-This will kick off the watcher library and start running the application on the port specified in `server.ts` or the `.env`file.
+This will kick off the watcher library and start running the application on the port specified in `server.ts` or the `.env` file.
 
 ```
 npm run watch
@@ -120,4 +121,4 @@ npm run watch
 ---
 ## How to use ##
 
-The API offers several endpoints to access and manipulate data in the database through both CRUD and custom actions. The details of what is required to successfully send requests to each endpoint, data shapes and db schema can be found in the [REQUIREMENTS.md](https://github.com/abdulrahman9901/Storefront-Backend/blob/bf76e95fac748c61d8442396f0d29164528a4818/REQUIREMENTS.md) file.
+The API offers several endpoints to access and manipulate data in the database through both CRUD and custom actions. The details of what is required to successfully send requests to each endpoint, data shapes and db schema can be found in the [REQUIREMENTS.md]file.

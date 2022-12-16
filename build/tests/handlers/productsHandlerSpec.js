@@ -12,7 +12,7 @@ const lodash_1 = __importDefault(require("lodash"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const request = (0, supertest_1.default)(server_1.default);
 var token;
-describe('productss Handlers', () => {
+describe('products Handlers', () => {
     beforeAll(async () => {
         // @ts-ignore
         const connection = await database_1.default.connect();
@@ -55,7 +55,7 @@ describe('productss Handlers', () => {
                 });
             }
         });
-    it('gets /products/:id: returns a user in JSON format.', async () => {
+    it('gets /products/:id: returns a product in JSON format.', async () => {
         const response = await request
             .get('/products/1')
             .set('Authorization', `Bearer ${token}`);
@@ -68,7 +68,7 @@ describe('productss Handlers', () => {
             category: test_data_1.test_products[0].category,
         });
     });
-    it('put /products update and returns a user in JSON format.', async () => {
+    it('put /products update and returns a product in JSON format.', async () => {
         const response = await request
             .put('/products/update')
             .set('Authorization', `Bearer ${token}`)
@@ -82,7 +82,7 @@ describe('productss Handlers', () => {
             category: test_data_1.test_products[0].category,
         });
     });
-    it('delete /products: returns deleted user ', async () => {
+    it('delete /products: returns deleted product ', async () => {
         const response = await request
             .delete('/products')
             .set('Authorization', `Bearer ${token}`)

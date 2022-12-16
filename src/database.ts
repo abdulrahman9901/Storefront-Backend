@@ -10,6 +10,7 @@ const {
   POSTGRES_PASSWORD,
   POSTGRES_TEST_DB,
   ENV,
+  DATABASE_PORT
 } = process.env
 
 let client
@@ -21,6 +22,7 @@ if(ENV === 'dev') {
     database: POSTGRES_DB,
     user: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
+    port:parseInt(DATABASE_PORT || '5432')
   })
 }
 
@@ -30,6 +32,7 @@ if(ENV === 'test') {
     database: POSTGRES_TEST_DB,
     user: POSTGRES_USER,
     password: POSTGRES_PASSWORD,
+    port:parseInt(DATABASE_PORT || '5432')
   })
 }
 
